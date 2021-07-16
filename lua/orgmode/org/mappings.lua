@@ -339,6 +339,12 @@ function OrgMappings:outline_up_heading()
   return vim.fn.cursor(item.parent.range.start_line, 1)
 end
 
+function OrgMappings:opfunc()
+  local item = Files.get_current_file():get_closest_headline()
+  vim.fn.cursor(item.range.start_line, item.level + 2)
+  vim.cmd(string.format('norm!v%dj$h', item.range.end_line - item.range.start_line))
+end
+
 ---@param direction string
 function OrgMappings:_change_todo_state(direction)
   local item = Files.get_current_file():get_closest_headline()
